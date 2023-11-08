@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "iris-ml:INSULCLOUD (read-only)",
+			"uri": "isfs-readonly://iris-ml:insulcloud/"
+		}
+	],
+	"settings": {}
+}

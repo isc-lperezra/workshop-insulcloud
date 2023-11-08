@@ -3,7 +3,7 @@ Include %occInclude
 Class Install.Installer
 {
 
-Parameter NAMESPACE As STRING = "FIREBASE";
+Parameter NAMESPACE As STRING = "INSULCLOUD";
 
 XData Install [ XMLNamespace = INSTALLER ]
 {

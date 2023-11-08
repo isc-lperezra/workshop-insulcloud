@@ -1,4 +1,4 @@
-ARG IMAGE=containers.intersystems.com/intersystems/iris-community:latest-cd
+ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community:2022.3.0.606.0
 FROM $IMAGE
 
 USER root
@@ -32,7 +32,7 @@ RUN \
 zn "%SYS" \
 set sc = $SYSTEM.OBJ.LoadDir("/opt/irisapp/src/Install", "ck", , 1) \
 if sc do ##class(Install.Installer).Install() \
-zn "FIREBASE" \
+zn "INSULCLOUD" \
 set sc = $SYSTEM.OBJ.LoadDir("/opt/irisapp/src/Local", "ck", , 1) \
 # start production
 set production = "Local.Production" \
