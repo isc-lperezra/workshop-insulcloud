@@ -15,3 +15,16 @@ services:
     environment:
     - ISC_DATA_DIRECTORY=/shared/durable
     command: --check-caps false --ISCAgent false
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+
+  sftp:
+    image: atmoz/sftp
+    container_name: sftp
+    volumes:
+        - ./sftp/upload:/home/foo/upload
+        - ./sftp/key/iris_ssh_key.pub:/home/foo/.ssh/keys/iris_ssh_key.pub:ro
+        - ./sftp/key/iris_ssh_key:/etc/ssh/iris_ssh_key
+    ports:
+        - "2222:22"
+    command: foo:pass:1001

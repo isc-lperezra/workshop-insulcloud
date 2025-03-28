@@ -16,7 +16,7 @@ Method OnTask() As %Status
         set ^LASTFIREBASE(..DocName) = 0
     }
     
-    do ..ConnectAndQuery(..KeyPath, ^LASTFIREBASE(..DocName), listOfDocs, ..DocName)
+    do ..ConnectAndQuery(..KeyPath, ^LASTFIREBASE(..DocName), .listOfDocs, ..DocName)
 
     for i = 1:1:listOfDocs.Count() {
         set msg = ##class(Local.Message.FirebaseDocRequest).%New()
@@ -31,28 +31,27 @@ Method OnTask() As %Status
     Quit tSC
 }
 
-/// Using Embedded Python to connect with Firebase
-ClassMethod ConnectAndQuery(keyPath As %String, lastId As %String, ByRef listOfDocs As %List, docName As %String) [ Language = python ]
+ClassMethod ConnectAndQuery(keyPath As %String, lastId As %String, listOfDocs As %List, docName As %String) [ Language = python ]
 {
-        import iris
-        import firebase_admin
-        from firebase_admin import credentials
-        from firebase_admin import firestore
+    import iris
+    import firebase_admin
+    from firebase_admin import credentials
+    from firebase_admin import firestore
 
-        if not firebase_admin._apps:
-            cred = credentials.Certificate(keyPath)
-            firebase_admin.initialize_app(cred)
+    if not firebase_admin._apps:
+        cred = credentials.Certificate(keyPath)
+        firebase_admin.initialize_app(cred)
 
-        db = firestore.client()
+    db = firestore.client()
 
-        # Read Data
-        docs_refer = db.collection(docName)
-        docs = docs_refer.where("id",">",lastId).stream()
-        # docs = docs_refer.stream()
+    # Read Data
+    docs_refer = db.collection(docName)
+    docs = docs_refer.where("id",">",lastId).stream()
+    # docs = docs_refer.stream
 
-        for doc in docs:
-            listOfDocs.Insert(str(doc.to_dict()).replace("'", '"'))
-        return 1
+    for doc in docs:
+        listOfDocs.Insert(str(doc.to_dict()).replace("'", '"'))
+    return 1
 }
 
 }

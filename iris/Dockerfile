@@ -38,4 +38,4 @@ set sc = $SYSTEM.OBJ.LoadDir("/opt/irisapp/src/Local", "ck", , 1) \
 set production = "Local.Production" \
 set ^Ens.Configuration("csp","LastProduction") = production \
 # do ##class(Ens.Director).SetAutoStart(production) \
-set sc = 1 \ 
+set sc = 1
