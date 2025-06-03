@@ -8,14 +8,11 @@ RUN chown -R irisowner:irisowner /opt/irisapp
 
 RUN apt-get update && apt-get install -y python3
 
-RUN apt-get update && \
-    apt-get install -y libgl1-mesa-glx libglib2.0-0
-
 # install required packages
 COPY --chown=$ISC_PACKAGE_MGRUSER:$ISC_PACKAGE_IRISGROUP /requirements.txt /
 RUN chmod 777 /requirements.txt
 
-RUN pip3 install -r /requirements.txt
+RUN pip3 install -r /requirements.txt --break-system-packages --no-cache-dir
 
 USER irisowner
 
