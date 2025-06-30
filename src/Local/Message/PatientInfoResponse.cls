@@ -1,13 +1,13 @@
-Class Local.Message.PatientInfoResponse Extends (Ens.Request, %XML.Adaptor)
+Class Local.Message.PatientInfoResponse Extends Ens.Response
 {
 
-/// Description
 Property PatientId As %String;
 
-/// Description
 Property Facility As %String;
 
-Property PatientInfo As Local.Object.PatientInfo;
+Property PatientInfo As %Stream.GlobalCharacter;
+
+Property Token As %String(MAXLEN = 5000);
 
 Storage Default
 {
@@ -21,6 +21,9 @@ Storage Default
 </Value>
 <Value name="3">
 <Value>PatientInfo</Value>
+</Value>
+<Value name="4">
+<Value>Token</Value>
 </Value>
 </Data>
 <DefaultData>PatientInfoResponseDefaultData</DefaultData>

@@ -1,5 +1,9 @@
-Class Local.BO.GetPatientInfo Extends Ens.BusinessOperation
+Class Local.BO.GetPatientInfo Extends EnsLib.REST.Operation
 {
+
+Property Credentials As Ens.DataType.ConfigName;
+
+Parameter SETTINGS = "Credentials";
 
 Parameter ADAPTER = "EnsLib.HTTP.OutboundAdapter";
 
@@ -7,23 +11,37 @@ Parameter INVOCATION = "Queue";
 
 Method InvokeInsulcloud(pRequest As Local.Message.PatientInfoRequest, Output pResponse As Local.Message.PatientInfoResponse) As %Status
 {
+  Try {
+    
+    #DIM tHttpResponse AS %Net.HttpResponse
 
-    Set ..Adapter.URL = ..Adapter.URL_"/login"
+    Set tHttpRequest = ##class(%Net.HttpRequest).%New()
+    Set tHttpResponse = ##class(%Net.HttpResponse).%New()
 
-    Set tResponse = ##class(%Net.HttpResponse).%New()
+    Set pResponse = ##class(Local.Message.PatientInfoResponse).%New()
+    Set pResponse.Facility = pRequest.Facility
+    Set pResponse.PatientId = pRequest.PatientId
 
-    Set tSC = ..Adapter.Post(.tResponse)
+    Do tHttpRequest.SetHeader("Authorization", "Bearer "_pRequest.Token)
 
-    If $$$ISERR(tSC) {
-        Quit tSC
+    Set ..Adapter.URL = $PIECE(..Adapter.URL, "?", 1)_"?user="_pRequest.PatientId
+    Set tSC = ..Adapter.SendFormDataArray(.tHttpResponse, "GET", tHttpRequest)
+
+    If $$$ISOK(tSC) {
+        Set pResponse.PatientInfo = tHttpResponse.Data
+        
+    } Else {
+        $$$TRACE($SYSTEM.Status.GetErrorText(tSC))
+        Do $System.Status.DisplayError(tSC)
     }
 
-    
-    Set jsonResponse = {}.%FromJSON(tResponse.Data)
+  }
+  Catch ex {
+    Set tSC=ex.AsStatus()
+    $$$TRACE($SYSTEM.Status.GetErrorText(tSC))
+  }
 
-    $$$TRACE(jsonResponse.%Get("access_token"))
-
-    return $$$OK
+  return $$$OK
 }
 
 XData MessageMap

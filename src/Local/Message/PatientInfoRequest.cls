@@ -1,4 +1,4 @@
-Class Local.Message.PatientInfoRequest Extends (Ens.Request, %XML.Adaptor)
+Class Local.Message.PatientInfoRequest Extends Ens.Request
 {
 
 /// Description
@@ -9,6 +9,8 @@ Property Facility As %String;
 
 Property AppointmentId As %String;
 
+Property Token As %String(MAXLEN = 5000);
+
 Storage Default
 {
 <Data name="PatientInfoRequestDefaultData">
@@ -17,10 +19,13 @@ Storage Default
 <Value>PatientId</Value>
 </Value>
 <Value name="2">
-<Value>AppointmentId</Value>
+<Value>Facility</Value>
 </Value>
 <Value name="3">
-<Value>Facility</Value>
+<Value>AppointmentId</Value>
+</Value>
+<Value name="4">
+<Value>Token</Value>
 </Value>
 </Data>
 <DefaultData>PatientInfoRequestDefaultData</DefaultData>

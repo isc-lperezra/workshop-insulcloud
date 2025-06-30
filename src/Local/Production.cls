@@ -17,7 +17,7 @@ XData ProductionDefinition
     <Setting Target="Host" Name="Filename">%f_%Q%!+(_a).hl7</Setting>
     <Setting Target="Adapter" Name="FilePath">/shared/out/</Setting>
   </Item>
-  <Item Name="FTP_HL7_In" Category="" ClassName="EnsLib.HL7.Service.FTPService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  <Item Name="FTP_HL7_In" Category="" ClassName="EnsLib.HL7.Service.FTPService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="MessageSchemaCategory">2.5.1</Setting>
     <Setting Target="Adapter" Name="FTPServer">sftp</Setting>
     <Setting Target="Adapter" Name="FTPPort">22</Setting>
@@ -38,6 +38,24 @@ XData ProductionDefinition
   <Item Name="FromHL7ToAppointment" Category="" ClassName="Local.BP.AppointmentBP" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
   <Item Name="Local.BP.GetPatientData" Category="" ClassName="Local.BP.GetPatientData" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+  <Item Name="Local.BO.GetPatientInfo" Category="" ClassName="Local.BO.GetPatientInfo" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Adapter" Name="Credentials"></Setting>
+    <Setting Target="Adapter" Name="HTTPServer">api.insulclock360.com</Setting>
+    <Setting Target="Adapter" Name="SSLConfig">BFC_SSL</Setting>
+    <Setting Target="Adapter" Name="URL">api/v1/admin/datas</Setting>
+    <Setting Target="Host" Name="ArchiveIO">1</Setting>
+    <Setting Target="Adapter" Name="SSLCheckServerIdentity">0</Setting>
+    <Setting Target="Adapter" Name="HTTPPort"></Setting>
+  </Item>
+  <Item Name="Local.BS.GenericBS" Category="" ClassName="Local.BS.GenericBS" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="Target">Local.BP.GetPatientData</Setting>
+  </Item>
+  <Item Name="Local.BO.GetTokenInsulcloud" Category="" ClassName="Local.BO.GetTokenInsulcloud" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="HTTPServer">api.insulclock360.com</Setting>
+    <Setting Target="Adapter" Name="SSLConfig">BFC_SSL</Setting>
+    <Setting Target="Adapter" Name="URL">api/v1/auth/login</Setting>
+    <Setting Target="Adapter" Name="Credentials">Insulcloud</Setting>
   </Item>
 </Production>
 }
